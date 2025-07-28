@@ -1,4 +1,4 @@
-# **SGB - Song Grading Bot** 🎵🤖
+# **SGB - Song Grader** 🎵🤖
 
 SGB is a full-stack web application that allows users to:
 1. Search for songs using the **Spotify API**  
