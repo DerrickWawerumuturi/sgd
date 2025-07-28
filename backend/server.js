@@ -4,6 +4,8 @@ import axios from 'axios'
 import cors from 'cors'
 import * as cheerio from 'cheerio'
 
+
+const PORT = process.env.PORT || 4000;
 dotenv.config()
 const app = express()
 app.use(cors())
@@ -95,7 +97,7 @@ app.post("/grade", async (req, res) => {
     if (!lyrics) return res.status(400).json({ error: 'Lyrics are required' });
 
     try {
-        const response = await axios.post('http://localhost:7455/predict', { text: lyrics });
+        const response = await axios.post('http://bert:7455/predict', { text: lyrics });
         res.json(response.data)
     } catch (error) {
         console.error('Error grading lyrics:', error.response?.data || error.message)
@@ -103,4 +105,4 @@ app.post("/grade", async (req, res) => {
     }
 })
 
-app.listen(4000, () => console.log('Server is running on port 4000'))
+app.listen(PORT, () => console.log('Server is running on port 4000'))

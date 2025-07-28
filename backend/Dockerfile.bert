@@ -1,0 +1,16 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the rest of the app
+COPY . .
+
+# Expose port
+EXPOSE 7455
+
+# Use flask with hot reload
+CMD ["flask", "--app", "main.py", "--host=0.0.0.0", "--port=7455", "--reload"]
