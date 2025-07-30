@@ -11,7 +11,7 @@ import { Command, CommandList, CommandItem } from "../components/ui/command";
 import type { SpotifyTrack } from "../../types";
 import { Spinner } from "./ui/shadcn-io/spinner";
 
-const SERVER_URL = "http://localhost:4000";
+const SERVER_URL = "https://sgd-1.onrender.com";
 
 const Spotify = () => {
     const [song, setSong] = useState("");
