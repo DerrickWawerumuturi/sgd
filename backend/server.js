@@ -97,7 +97,10 @@ app.post("/grade", async (req, res) => {
     if (!lyrics) return res.status(400).json({ error: 'Lyrics are required' });
 
     try {
-        const response = await axios.post('http://bert:7455/predict', { text: lyrics });
+        const response = await axios.post(
+            'https://derrickmuturi-sgd-bert.hf.space/predict',
+            { text: lyrics }
+        );
         res.json(response.data)
     } catch (error) {
         console.error('Error grading lyrics:', error.response?.data || error.message)
