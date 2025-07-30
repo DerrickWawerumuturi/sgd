@@ -23,11 +23,13 @@ const Spotify = () => {
     const [grading, setGrading] = useState(false);
     const [gradeResult, setGradeResult] = useState<string[] | null>(null);
     const [skipFetch, setSkipFetch] = useState(false);
+    const [isSearching, setIsSearching] = useState(false);
 
     // Debounced search function
     const fetchSongs = useCallback(
         debounce(async (query: string) => {
             if (query.length > 2) {
+                setIsSearching(true);
                 try {
                     const res = await axios.get(
                         `${SERVER_URL}/search?q=${encodeURIComponent(query)}`
@@ -36,10 +38,13 @@ const Spotify = () => {
                     setOpen(res.data.tracks.items.length > 0);
                 } catch (error) {
                     console.error("Error fetching song:", error);
+                } finally {
+                    setIsSearching(false);
                 }
             } else {
                 setResults([]);
                 setOpen(false);
+                setIsSearching(false);
             }
         }, 400),
         []
@@ -112,10 +117,11 @@ const Spotify = () => {
                                     setGradeResult(null);
                                     setResults([]);
                                     setOpen(false);
+                                    setIsSearching(false);
                                 }}
                                 className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
                             >
-                                {song ? <Spinner className="w-4 p-4 animate-spin" /> : "✕"}
+                                {isSearching ? <Spinner className="w-4 p-4 animate-spin" /> : "✕"}
                             </button>
                         )}
                     </div>
