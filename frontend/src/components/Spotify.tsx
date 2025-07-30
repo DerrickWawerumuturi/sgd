@@ -11,7 +11,7 @@ import { Command, CommandList, CommandItem } from "../components/ui/command";
 import type { SpotifyTrack } from "../../types";
 import { Spinner } from "./ui/shadcn-io/spinner";
 
-const SERVER_URL = "https://sgd-1.onrender.com";
+const SERVER_URL = "http://localhost:4000";
 
 const Spotify = () => {
     const [song, setSong] = useState("");
@@ -69,6 +69,7 @@ const Spotify = () => {
                     setLyrics(res.data.lyrics);
                 } catch (error) {
                     console.error("Error fetching lyrics:", error);
+                    setLyrics("No lyrics found");
                 } finally {
                     setLoadingLyrics(false);
                 }
