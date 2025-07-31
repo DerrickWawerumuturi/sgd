@@ -238,6 +238,20 @@ const Spotify = () => {
                 </motion.button>
             )}
 
+            {/* Lyrics */}
+            {lyrics && (
+                <motion.div
+                    key="lyrics"
+                    className="mt-4 p-4 bg-gray-100 rounded-md text-sm w-[600px] shadow-md"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                >
+                    <p className="font-medium mb-2">Lyrics:</p>
+                    <pre className="text-gray-700 whitespace-pre-wrap">{lyrics}</pre>
+                </motion.div>
+            )}
+
             {/* Grading Results */}
             <AnimatePresence>
                 {loadingLyrics && (

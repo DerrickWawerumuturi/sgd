@@ -80,12 +80,36 @@ async function getLyricsFromGenius(url) {
     return lyrics.trim()
 }
 
+async function getLyricsFromLyricsOvh(artist, title) {
+    try {
+        const res = await axios.get(`https://api.lyrics.ovh/v1/${artist}/${title}`)
+        return res.data.lyrics || null
+    } catch (error) {
+        console.error('Error getting lyrics from LyricsOvh:', error.response?.data || error.message)
+        return null
+    }
+}
+
+
 app.get('/lyrics', async (req, res) => {
     const { artist, title } = req.query;
+
     try {
+
+        // 1. Try Genius
         const url = await searchGenius(artist, title)
         const lyrics = await getLyricsFromGenius(url)
-        res.json({ lyrics });
+        if (lyrics) {
+            res.json({ lyrics });
+        }
+
+        // 2. Try LyricsOvh
+        const fallbackLyrics = await getLyricsFromLyricsOvh(artist, title)
+        if (fallbackLyrics) {
+            res.json({ lyrics: fallbackLyrics });
+        }
+
+        res.status(404).json({ lyrics: null, message: 'Lyrics not found' });
     } catch (error) {
         res.status(404).json({ lyrics: null, message: 'Lyrics not found' });
     }
